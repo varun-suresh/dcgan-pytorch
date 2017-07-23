@@ -3,6 +3,7 @@
 from model import generator
 from torch.autograd import Variable
 import torch
+from matplotlib import pyplot as plt
 
 
 def train():
@@ -27,5 +28,7 @@ if __name__ == '__main__':
     net = generator(input_size=100, output_size=64)
     z = torch.rand(1, 100)
     output = evaluate(net, z)
-    img = output.data.cpu().numpy()
-    print img.shape
+    output = output.data.cpu().numpy()
+    img = output[0].T
+    plt.imshow(img*255.0)
+    plt.show()
