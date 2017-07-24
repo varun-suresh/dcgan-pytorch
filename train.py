@@ -1,6 +1,6 @@
 # Script to train the network
 
-from model import generator
+from model import generator, discriminator
 from torch.autograd import Variable
 import torch
 from matplotlib import pyplot as plt
@@ -13,7 +13,7 @@ def train():
     raise NotImplementedError
 
 
-def evaluate(net, z):
+def g_evaluate(net, z):
     """
     Function to evaluate the generator network.
     """
@@ -23,12 +23,27 @@ def evaluate(net, z):
     output = net(z)
     return output
 
+def d_evaluate(net, img):
+    """
+    Evaluate the discriminator network
+    """
+    net.eval()
+    # img = Variable(img)
+    output = net(img)
+    return output
 
 if __name__ == '__main__':
-    net = generator(input_size=100, output_size=64)
-    z = torch.rand(1, 100)
-    output = evaluate(net, z)
-    output = output.data.cpu().numpy()
-    img = output[0].T
-    plt.imshow(img*255.0)
-    plt.show()
+    g_net = generator(input_size=100, output_size=64)
+    batch_size = 1
+    z = torch.rand(batch_size, 100)
+    g_output = g_evaluate(g_net, z)
+    print g_output.size()
+
+    d_net = discriminator(image_size=64)
+    d_output = d_evaluate(d_net, g_output)
+    print d_output.data.cpu().numpy()
+    # output = output.data.cpu().numpy()
+    # img = output[0].T
+    # print img*255
+    # plt.imshow(img*255.0)
+    # plt.show()
