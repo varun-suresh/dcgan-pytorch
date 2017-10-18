@@ -18,7 +18,7 @@ class generator(nn.Module):
         self.bn_g3 = nn.BatchNorm2d(128)
         self.conv_tp4 = nn.ConvTranspose2d(128, 64, kernel_size=4, stride=2, padding=1, bias=False)
         self.bn_g4 = nn.BatchNorm2d(64)
-        self.conv_tp5 = nn.ConvTranspose2d(64, 3, kernel_size=4, stride=2, padding=1, bias=False)
+        self.conv_tp5 = nn.ConvTranspose2d(64, 1, kernel_size=4, stride=2, padding=1, bias=False)
 
     def forward(self, x):
         out = F.relu(self.bn_g1(self.conv_tp1(x)))
@@ -32,7 +32,7 @@ class generator(nn.Module):
 class discriminator(nn.Module):
     def __init__(self, image_size):
         super(discriminator, self).__init__()
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=4, stride=2, padding=1, bias=False)
+        self.conv1 = nn.Conv2d(1, 64, kernel_size=4, stride=2, padding=1, bias=False)
         self.conv2 = nn.Conv2d(64, 128, kernel_size=4, stride=2, padding=1, bias=False)
         self.bn_d2 = nn.BatchNorm2d(128)
         self.conv3 = nn.Conv2d(128, 256, kernel_size=4, stride=2, padding=1, bias=False)
